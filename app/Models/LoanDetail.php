@@ -2,12 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LoanDetail extends Model
 {
-    use HasFactory;  
-    
-    protected $fillable = ['loan_id', 'book_id', 'is_return'];
+    protected $table = 'loan_details';
+
+    protected $fillable = [
+        'loan_id',
+        'book_id',
+        'is_return'
+    ];
+
+    public function loan()
+    {
+        return $this->belongsTo(Loan::class, 'loan_id', 'id');
+    }
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class, 'book_id', 'id');
+    }
+
+    public function bookReturn()
+    {
+        return $this->hasOne(BookReturn::class, 'loan_detail_id', 'id');
+    }
 }

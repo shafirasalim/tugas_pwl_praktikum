@@ -2,24 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory;
-    
     protected $primaryKey = 'npm';
     public $incrementing = false;
-    
-    protected $fillable = [
-        'npm', 'username', 'first_name', 'last_name', 'email', 'password',
-    ];
-    
-    protected $hidden = [
-        'password',
+    protected $keyType = 'string';
 
+    protected $fillable = [
+        'npm',
+        'username',
+        'first_name',
+        'last_name',
+        'email',
+        'password'
     ];
-    
-    public $timestamps = true;  // ← Pastikan true karena users punya created_at & updated_at
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class, 'user_npm', 'npm');
+    }
 }
